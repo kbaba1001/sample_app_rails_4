@@ -1,0 +1,12 @@
+image: ruby2.0.0
+services:
+  - postgres
+script:
+  - mkdir -p /tmp/bundle
+  - sudo chown -R ubuntu:ubuntu /tmp/bundle
+  - gem update bundler
+  - bundle install -j4 --path /tmp/bundle
+  - cp config/database_drone.yml.example config/database.yml
+  - bundle exec rake db:create db:migrate spec
+cache:
+  - /tmp/bundle
